@@ -125,7 +125,7 @@
 		self.eventSuffix = '.' + self.prefix + ~~(Math.random() * 2e3);
 
 		//  In case we're going to use the autoplay
-		self.interval = [];
+		self.interval = null;
 
 		//  Get everything set up innit
 		self.init = function(options) {
@@ -207,7 +207,7 @@
 
 		//  Start our autoplay
 		self.start = function() {
-			self.interval.push(setTimeout(function() {
+			self.interval = setTimeout(function() {
 				//  Move on to the next slide
 				self.next();
 
@@ -215,7 +215,7 @@
 				//  we don't need to keep starting
 				//  the slider from within our timeout
 				//  as .animate() calls it for us
-			}, self.options.delay));
+			}, self.options.delay);
 
 			return self;
 		};
@@ -223,10 +223,7 @@
 		//  And pause our timeouts
 		//  and force stop the slider if needed
 		self.stop = function() {
-            var timeout;
-            while(timeout = self.interval.pop()) {
-                clearTimeout(timeout);
-            }
+			clearTimeout(self.interval);
 
 			return self;
 		};
